@@ -44,6 +44,5 @@ public:
 	virtual void Render(HDC hDC);
 	virtual CCharacter* Clone();
 	virtual float SetDamage(float Damage);
-
 };
 

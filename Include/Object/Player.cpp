@@ -8,6 +8,7 @@
 #include "../UI/ProgressBar.h"
 #include "../UI/UIText.h"
 #include "PhantomBlow.h"
+#include "BladeFury.h"
 
 CPlayer::CPlayer() : m_Skill1Enable(false), m_Skill1Time(0.f)
 {
@@ -30,6 +31,7 @@ void CPlayer::Start()
 	CInput::GetInst()->SetCallback<CPlayer>("MoveLeft", KeyState_Push, this, &CPlayer::MoveLeft);
 	CInput::GetInst()->SetCallback<CPlayer>("MoveRight", KeyState_Push, this, &CPlayer::MoveRight);
 	CInput::GetInst()->SetCallback<CPlayer>("PhantomBlow", KeyState_Down, this, &CPlayer::PhantomBlow);
+	CInput::GetInst()->SetCallback<CPlayer>("BladeFury", KeyState_Down, this, &CPlayer::BladeFury);
 }
 
 bool CPlayer::Init()
@@ -46,14 +48,18 @@ bool CPlayer::Init()
 	AddAnimation("PlayerRightWalk", true, 0.6f);
 	AddAnimation("PlayerRightAttack", false, 0.5f);
 	AddAnimation("PlayerRightPhantomBlow", false);
+	AddAnimation("PlayerRightBladeFury", false, 0.5f);
 
 	AddAnimation("PlayerLeftIdle");
 	AddAnimation("PlayerLeftWalk", true, 0.6f);
 	AddAnimation("PlayerLeftAttack", false, 0.5f);
 	AddAnimation("PlayerLeftPhantomBlow", false);
+	AddAnimation("PlayerLeftBladeFury", false, 0.5f);
 
 	SetAnimationEndNotify<CPlayer>("PlayerRightPhantomBlow", this, &CPlayer::AttackEnd);
 	SetAnimationEndNotify<CPlayer>("PlayerLeftPhantomBlow", this, &CPlayer::AttackEnd);
+	SetAnimationEndNotify<CPlayer>("PlayerRightBladeFury", this, &CPlayer::AttackEnd);
+	SetAnimationEndNotify<CPlayer>("PlayerLeftBladeFury", this, &CPlayer::AttackEnd);
 
 	CColliderSphere* Head = AddCollider<CColliderSphere>("Head");
 	Head->SetRadius(20.f);
@@ -65,13 +71,13 @@ bool CPlayer::Init()
 	Body->SetOffset(0.f, -22.5f);
 	Body->SetCollisionProfile("Player");
 
-	m_HPBarWidget = CreateWidgetComponent("HPBarWidget");
+	m_StatusWidget = CreateWidgetComponent("StatusWidget");
 
-	CProgressBar* HPBar = m_HPBarWidget->CreateWidget<CProgressBar>("HPBar");
+	CProgressBar* Bar = m_StatusWidget->CreateWidget<CProgressBar>("HPBar");
 
-	HPBar->SetTexture("WorldHPBar", TEXT("CharacterHPBar.bmp"));
+	Bar->SetTexture("WorldHPBar", TEXT("CharacterHPBar.bmp"));
 	
-	m_HPBarWidget->SetPos(-25.f, -95.f);
+	m_StatusWidget->SetPos(-25.f, -95.f);
 
 	m_CharacterInfo.HP = 1000;
 	m_CharacterInfo.HPMax = 1000;
@@ -90,6 +96,18 @@ bool CPlayer::Init()
 void CPlayer::Update(float DeltaTime)
 {
 	CCharacter::Update(DeltaTime);
+
+	Vector2 Range = GetRange();
+
+	if (m_Pos.x < 0.f)
+	{
+		m_Pos.x = 0;
+	}
+
+	if (m_Pos.x > Range.x + m_Size.x + (m_Size.x / 2))
+	{
+		m_Pos.x = Range.x + m_Size.x + (m_Size.x / 2);
+	}
 
 	if (CheckCurrentAnimation("PlayerRightPhantomBlow") || CheckCurrentAnimation("PlayerLeftPhantomBlow"))
 	{
@@ -146,7 +164,7 @@ float CPlayer::SetDamage(float Damage)
 		State->SetHPPercent(m_CharacterInfo.HP / (float)m_CharacterInfo.HPMax);
 	}
 
-	CProgressBar* HPBar = (CProgressBar*)m_HPBarWidget->GetWidget();
+	CProgressBar* HPBar = (CProgressBar*)m_StatusWidget->GetWidget();
 
 	HPBar->SetPercent(m_CharacterInfo.HP / (float)m_CharacterInfo.HPMax);
 
@@ -202,6 +220,25 @@ void CPlayer::PhantomBlow(float DeltaTime)
 	}	
 }
 
+void CPlayer::BladeFury(float DeltaTime)
+{
+	bool Direction = GetDirection();
+
+	if (Direction)
+	{
+		CBladeFury* Effect = m_Scene->CreateObject<CBladeFury>("BladeFury", "BladeFury", Vector2(m_Pos.x, m_Pos.y - m_Size.y), Vector2(469.f, 195.f));
+
+		ChangeAnimation("PlayerLeftBladeFury");
+	}
+
+	else
+	{
+		CBladeFury* Effect = m_Scene->CreateObject<CBladeFury>("BladeFury", "BladeFury", Vector2(m_Pos.x, m_Pos.y - m_Size.y), Vector2(469.f, 195.f));
+
+		ChangeAnimation("PlayerRightBladeFury");
+	}
+}
+
 void CPlayer::Pause(float DeltaTime)
 {
 	CGameManager::GetInst()->SetTimeScale(0.f);
@@ -210,11 +247,6 @@ void CPlayer::Pause(float DeltaTime)
 void CPlayer::Resume(float DeltaTime)
 {
 	CGameManager::GetInst()->SetTimeScale(1.f);
-}
-
-void CPlayer::Skill1(float DeltaTime)
-{
-	ChangeAnimation("LucidNunNaRightSkill1");
 }
 
 void CPlayer::JumpKey(float DeltaTime)

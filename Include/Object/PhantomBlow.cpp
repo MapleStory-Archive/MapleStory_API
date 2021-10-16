@@ -86,21 +86,7 @@ CPhantomBlow* CPhantomBlow::Clone()
 
 void CPhantomBlow::ChangeAnimation(bool Direction)
 {
-	/*if (Direction)
-	{
-		if (CheckCurrentAnimation("RightPhantomBlow"))
-		{
-			ChangeAnimation("LeftPhantomBlow");
-		}
-	}
-
-	else
-	{
-		if (CheckCurrentAnimation("LeftPhantomBlow"))
-		{
-			ChangeAnimation("RightPhantomBlow");
-		}
-	}*/
+	
 }
 
 void CPhantomBlow::AnimationFinish()

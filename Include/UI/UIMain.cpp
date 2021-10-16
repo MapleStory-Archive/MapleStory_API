@@ -2,7 +2,6 @@
 #include "Button.h"
 #include "UIImage.h"
 #include "../GameManager.h"
-#include "../Scene/MainScene.h"
 #include "../Scene/SceneManager.h"
 #include "../Scene/SceneResource.h"
 #include "UIText.h"

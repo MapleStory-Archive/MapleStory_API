@@ -57,6 +57,8 @@ protected:
 
 	bool m_Direction;
 
+	Vector2 m_Range;
+
 public:
 	void SetSideWallCheck(bool Check)
 	{
@@ -175,6 +177,11 @@ public:
 		return m_Direction;
 	}
 
+	Vector2 GetRange() const
+	{
+		return m_Range;
+	}
+
 public:
 	void SetScene(class CScene* Scene);
 
@@ -249,6 +256,17 @@ public:
 	void SetDirection(bool Direction)
 	{
 		m_Direction = Direction;
+	}
+
+	void SetRange(float x, float y)
+	{
+		m_Range.x = x;
+		m_Range.y = y;
+	}
+
+	void SetRnage(const Vector2& Range)
+	{
+		m_Range = Range;
 	}
 
 public:

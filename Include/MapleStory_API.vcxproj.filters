@@ -123,9 +123,6 @@
     <ClInclude Include="Input.h">
       <Filter>01. GameManager\04. Input</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\MainScene.h">
-      <Filter>02. Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\Scene.h">
       <Filter>02. Scene</Filter>
     </ClInclude>
@@ -273,6 +270,12 @@
     <ClInclude Include="Object\PhantomBlow.h">
       <Filter>03. Object\02. Effect</Filter>
     </ClInclude>
+    <ClInclude Include="Object\BladeFury.h">
+      <Filter>03. Object\02. Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UITutorial.h">
+      <Filter>07. UI\02. Window</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MapleStory_API.rc">
@@ -305,9 +308,6 @@
     </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>01. GameManager\04. Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\MainScene.cpp">
-      <Filter>02. Scene</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Scene.cpp">
       <Filter>02. Scene</Filter>
@@ -428,6 +428,12 @@
     </ClCompile>
     <ClCompile Include="Object\PhantomBlow.cpp">
       <Filter>03. Object\02. Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\BladeFury.cpp">
+      <Filter>03. Object\02. Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UITutorial.cpp">
+      <Filter>07. UI\02. Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

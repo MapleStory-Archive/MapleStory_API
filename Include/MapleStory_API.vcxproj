@@ -177,6 +177,7 @@
     <ClInclude Include="Map\Tile.h" />
     <ClInclude Include="Map\TileMap.h" />
     <ClInclude Include="Math.h" />
+    <ClInclude Include="Object\BladeFury.h" />
     <ClInclude Include="Object\Character.h" />
     <ClInclude Include="Object\GameObject.h" />
     <ClInclude Include="Object\PhantomBlow.h" />
@@ -192,7 +193,6 @@
     <ClInclude Include="Scene\Camera.h" />
     <ClInclude Include="Scene\EditorDlg.h" />
     <ClInclude Include="Scene\EditorScene.h" />
-    <ClInclude Include="Scene\MainScene.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\SceneCollision.h" />
     <ClInclude Include="Scene\SceneManager.h" />
@@ -210,6 +210,7 @@
     <ClInclude Include="UI\UIMain.h" />
     <ClInclude Include="UI\UIStart.h" />
     <ClInclude Include="UI\UIText.h" />
+    <ClInclude Include="UI\UITutorial.h" />
     <ClInclude Include="UI\UIWidget.h" />
     <ClInclude Include="UI\UIWindow.h" />
     <ClInclude Include="UI\WidgetComponent.h" />
@@ -235,6 +236,7 @@
     <ClCompile Include="Map\Tile.cpp" />
     <ClCompile Include="Map\TileMap.cpp" />
     <ClCompile Include="Math.cpp" />
+    <ClCompile Include="Object\BladeFury.cpp" />
     <ClCompile Include="Object\Character.cpp" />
     <ClCompile Include="Object\GameObject.cpp" />
     <ClCompile Include="Object\PhantomBlow.cpp" />
@@ -249,7 +251,6 @@
     <ClCompile Include="Scene\Camera.cpp" />
     <ClCompile Include="Scene\EditorDlg.cpp" />
     <ClCompile Include="Scene\EditorScene.cpp" />
-    <ClCompile Include="Scene\MainScene.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\SceneCollision.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
@@ -266,6 +267,7 @@
     <ClCompile Include="UI\UIMain.cpp" />
     <ClCompile Include="UI\UIStart.cpp" />
     <ClCompile Include="UI\UIText.cpp" />
+    <ClCompile Include="UI\UITutorial.cpp" />
     <ClCompile Include="UI\UIWidget.cpp" />
     <ClCompile Include="UI\UIWindow.cpp" />
     <ClCompile Include="UI\WidgetComponent.cpp" />

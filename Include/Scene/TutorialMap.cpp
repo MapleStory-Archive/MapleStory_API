@@ -2,9 +2,10 @@
 #include "../GameManager.h"
 #include "../Object/Player.h"
 #include "../Object/PhantomBlow.h"
+#include "../Object/BladeFury.h"
 #include "SceneResource.h"
 #include "Camera.h"
-#include "../UI/UIMain.h"
+#include "../UI/UITutorial.h"
 #include "../UI/UICharacterStateHUD.h"
 #include "../Map/ScrollMap.h"
 #include "../Map/TileMap.h"
@@ -40,10 +41,11 @@ bool CTutorialMap::Init()
 	CPhantomBlow* RightPhantomBlow = CreatePrototype<CPhantomBlow>("RightPhantomBlow", false);
 	CPhantomBlow* LeftPhantomBlow = CreatePrototype<CPhantomBlow>("LeftPhantomBlow", true);
 
+	CBladeFury* BladeFury = CreatePrototype<CBladeFury>("BladeFury", false);
+
 	CPlayer* Player = CreateObject<CPlayer>("Player");
 
 	SetPlayer(Player);
-
 
 	GetCamera()->SetTarget(Player);
 	GetCamera()->SetTargetPivot(0.5f, 0.5f);
@@ -55,10 +57,16 @@ bool CTutorialMap::Init()
 	Map->SetScrollRatio(1.0f, 1.0f);
 	Map->SetZOrder(0);
 
+	Player->SetRange(1500.f, 770.f);
+
 	CTileMap* TileMap = CreateMap<CTileMap>("TutorialMap", Vector2(0.f, 0.f), Vector2(1500.f, 770.f));
 
 	TileMap->LoadFile("TutorialMap");
 	TileMap->SetZOrder(2);
+
+	CUITutorial* TutorialWindow = CreateUIWindow<CUITutorial>("TutorialWindow");
+
+	CUICharacterStateHUD* StateWindow = CreateUIWindow<CUICharacterStateHUD>("CharacterStateHUD");
 
 	return true;
 }
@@ -138,8 +146,26 @@ void CTutorialMap::LoadAnimationSequence()
 		GetSceneResource()->AddAnimationFrameData("PlayerRightPhantomBlow", i * 114.f, 0.f, 114.f, 81.f);
 	}
 
+	GetSceneResource()->CreateAnimationSequence("PlayerRightBladeFury", "PlayerRightBladeFury", TEXT("Player/R/BladeFury.bmp"));
+
+	GetSceneResource()->SetTextureColorKey("PlayerRightBladeFury", 255, 0, 255);
+
+	for (int i = 0; i < 10; i++)
+	{
+		GetSceneResource()->AddAnimationFrameData("PlayerRightBladeFury", i * 109.f, 0.f, 109.f, 161.f);
+	}
+
+	GetSceneResource()->CreateAnimationSequence("PlayerLeftBladeFury", "PlayerLeftBladeFury", TEXT("Player/L/bladeFury.bmp"));
+
+	GetSceneResource()->SetTextureColorKey("PlayerLeftBladeFury", 255, 0, 255);
+
+	for (int i = 0; i < 10; i++)
+	{
+		GetSceneResource()->AddAnimationFrameData("PlayerLeftBladeFury", i * 109.f, 0.f, 109.f, 161.f);
+	}
+
 	// Player ÀÌÆåÆ®
-	GetSceneResource()->CreateAnimationSequence("RightPhantomBlow", "RightPhantomBlow", TEXT("Player/R/Effect/PhantomBlow.bmp"));
+	GetSceneResource()->CreateAnimationSequence("RightPhantomBlow", "RightPhantomBlow", TEXT("Player/Effect/R/PhantomBlow.bmp"));
 
 	GetSceneResource()->SetTextureColorKey("RightPhantomBlow", 255, 0, 255);
 
@@ -148,13 +174,22 @@ void CTutorialMap::LoadAnimationSequence()
 		GetSceneResource()->AddAnimationFrameData("RightPhantomBlow", i * 412.f, 0.f, 412.f, 210.f);
 	}
 
-	GetSceneResource()->CreateAnimationSequence("LeftPhantomBlow", "LeftPhantomBlow", TEXT("Player/L/Effect/PhantomBlow.bmp"));
+	GetSceneResource()->CreateAnimationSequence("LeftPhantomBlow", "LeftPhantomBlow", TEXT("Player/Effect/L/PhantomBlow.bmp"));
 
 	GetSceneResource()->SetTextureColorKey("LeftPhantomBlow", 255, 0, 255);
 
 	for (int i = 0; i < 10; i++)
 	{
 		GetSceneResource()->AddAnimationFrameData("LeftPhantomBlow", i * 412.f, 0.f, 412.f, 210.f);
+	}
+
+	GetSceneResource()->CreateAnimationSequence("BladeFury", "BladeFury", TEXT("Player/Effect/BladeFury.bmp"));
+
+	GetSceneResource()->SetTextureColorKey("BladeFury", 255, 0, 255);
+
+	for (int i = 0; i < 8; i++)
+	{
+		GetSceneResource()->AddAnimationFrameData("BladeFury", i * 469.f, 0.f, 469.f, 195.f);
 	}
 }
 

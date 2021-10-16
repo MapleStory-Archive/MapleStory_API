@@ -147,7 +147,10 @@ bool CInput::Init(HWND hWnd)
 	CreateKey("MoveLeft", VK_LEFT);
 	CreateKey("MoveRight", VK_RIGHT);
 	CreateKey("Jump", VK_SPACE);
-	CreateKey("PhantomBlow", 'C');
+	CreateKey("PhantomBlow", VK_LCONTROL);
+	SetCtrlKey("PhantomBlow", true);
+	CreateKey("BladeFury", VK_LSHIFT);
+	SetShiftKey("BladeFury", true);
 	
 
 	CreateKey("Skill1", '1');

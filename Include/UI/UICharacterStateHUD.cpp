@@ -1,6 +1,5 @@
 #include "UICharacterStateHUD.h"
 #include "../GameManager.h"
-#include "../Scene/MainScene.h"
 #include "../Scene/SceneManager.h"
 
 CUICharacterStateHUD::CUICharacterStateHUD()
@@ -13,37 +12,36 @@ CUICharacterStateHUD::~CUICharacterStateHUD()
 
 bool CUICharacterStateHUD::Init()
 {
-	SetPos(30.f, 20.f);
-
 	Resolution	RS = CGameManager::GetInst()->GetResolution();
 
-	CUIImage* Back = CreateWidget<CUIImage>("HPBarBack");
+	SetPos(RS.Width / 2.f - 102.f, RS.Height - 85.f);
 
-	Back->SetTexture("BarBack", TEXT("BarBack.bmp"));
-	Back->SetTextureColorKey(255, 0, 255);
+	CUIImage* Back = CreateWidget<CUIImage>("StatusBar");
 
-	//Back->SetPos(30.f, 20.f);
+	Back->SetTexture("StatusBar", TEXT("StatusBar.bmp"));
+	Back->SetTextureColorKey(0, 0, 0);
+	Back->SetZOrder(3);
+
+	Back = CreateWidget<CUIImage>("backgrnd");
+
+	Back->SetTexture("backgrnd", TEXT("status.backgrnd.bmp"));
+	Back->SetTextureColorKey(0, 0, 0);
+	Back->SetPos(3.f, 25.f);
+	Back->SetZOrder(1);
 
 	m_HPBar = CreateWidget<CProgressBar>("HPBar");
 
-	m_HPBar->SetTexture("HPBar", TEXT("BarDefault.bmp"));
+	m_HPBar->SetTexture("HPBar", TEXT("status.gauge.hp.layer.bmp"));
 
-	m_HPBar->SetPos(10.f, 10.f);
-
-	Back = CreateWidget<CUIImage>("MPBarBack");
-
-	Back->SetTexture("BarBack", TEXT("BarBack.bmp"));
-
-	Back->SetPos(0.f, 40.f);
-	Back->SetTextureColorKey(255, 0, 255);
-
-	//Back->SetPos(30.f, 20.f);
+	m_HPBar->SetPos(25.f, 28.f);
+	m_HPBar->SetZOrder(2);
 
 	m_MPBar = CreateWidget<CProgressBar>("MPBar");
 
-	m_MPBar->SetTexture("MPBar", TEXT("BarDefault1.bmp"));
+	m_MPBar->SetTexture("MPBar", TEXT("status.gauge.mp.layer.bmp"));
 
-	m_MPBar->SetPos(10.f, 50.f);
+	m_MPBar->SetPos(25.f, 44.f);
+	m_MPBar->SetZOrder(2);
 
 	return true;
 }

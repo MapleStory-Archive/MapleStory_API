@@ -14,7 +14,7 @@ public:
 protected:
 	bool m_Skill1Enable;
 	float m_Skill1Time;
-	CSharedPtr<CWidgetComponent> m_HPBarWidget;
+	CSharedPtr<CWidgetComponent> m_StatusWidget;
 	CSharedPtr<CWidgetComponent> m_NameWidget;
 
 public: 
@@ -40,9 +40,10 @@ public:
 	void MoveLeft(float DeltaTime);
 	void MoveRight(float DeltaTime);
 	void PhantomBlow(float DeltaTime);
+	void BladeFury(float DeltaTime);
+
 	void Pause(float DeltaTime);
 	void Resume(float DeltaTime);
-	void Skill1(float DeltaTime);
 	void JumpKey(float DeltaTime);
 
 public:
