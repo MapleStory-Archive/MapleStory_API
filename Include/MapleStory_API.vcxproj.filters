@@ -276,6 +276,9 @@
     <ClInclude Include="UI\UITutorial.h">
       <Filter>07. UI\02. Window</Filter>
     </ClInclude>
+    <ClInclude Include="Object\ShadowBlade.h">
+      <Filter>03. Object\01. Character</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MapleStory_API.rc">
@@ -434,6 +437,9 @@
     </ClCompile>
     <ClCompile Include="UI\UITutorial.cpp">
       <Filter>07. UI\02. Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\ShadowBlade.cpp">
+      <Filter>03. Object\01. Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

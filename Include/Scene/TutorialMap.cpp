@@ -3,6 +3,7 @@
 #include "../Object/Player.h"
 #include "../Object/PhantomBlow.h"
 #include "../Object/BladeFury.h"
+#include "../Object/ShadowBlade.h"
 #include "SceneResource.h"
 #include "Camera.h"
 #include "../UI/UITutorial.h"
@@ -43,12 +44,14 @@ bool CTutorialMap::Init()
 
 	CBladeFury* BladeFury = CreatePrototype<CBladeFury>("BladeFury", false);
 
-	CPlayer* Player = CreateObject<CPlayer>("Player");
+	CPlayer* Player = CreateObject<CPlayer>("Player", Vector2(100.f, 650.f));
 
 	SetPlayer(Player);
 
 	GetCamera()->SetTarget(Player);
 	GetCamera()->SetTargetPivot(0.5f, 0.5f);
+
+	CShadowBlade* ShadowBlade = CreateObject<CShadowBlade>("ShadowBlade", Vector2(1000.f, 650.f));
 
 	CScrollMap* Map = CreateMap<CScrollMap>("ScrollMap");
 	Map->SetSize(1500.f, 770.f);
@@ -58,6 +61,7 @@ bool CTutorialMap::Init()
 	Map->SetZOrder(0);
 
 	Player->SetRange(1500.f, 770.f);
+	ShadowBlade->SetRange(1500.f, 770.f);
 
 	CTileMap* TileMap = CreateMap<CTileMap>("TutorialMap", Vector2(0.f, 0.f), Vector2(1500.f, 770.f));
 
@@ -190,6 +194,43 @@ void CTutorialMap::LoadAnimationSequence()
 	for (int i = 0; i < 8; i++)
 	{
 		GetSceneResource()->AddAnimationFrameData("BladeFury", i * 469.f, 0.f, 469.f, 195.f);
+	}
+
+	// Monster 애니메이션
+	GetSceneResource()->CreateAnimationSequence("RightShadowBladeStand", "RightShadowBladeStand", TEXT("Monster/ShadowBlade/Stand/R/Stand.bmp"));
+
+	GetSceneResource()->SetTextureColorKey("RightShadowBladeStand", 255, 0, 255);
+
+	for (int i = 0; i < 4; i++)
+	{
+		GetSceneResource()->AddAnimationFrameData("RightShadowBladeStand", i * 65.f, 0.f, 65.f, 67.f);
+	}
+
+	GetSceneResource()->CreateAnimationSequence("LeftShadowBladeStand", "LeftShadowBladeStand", TEXT("Monster/ShadowBlade/Stand/L/Stand.bmp"));
+
+	GetSceneResource()->SetTextureColorKey("LeftShadowBladeStand", 255, 0, 255);
+
+	for (int i = 0; i < 4; i++)
+	{
+		GetSceneResource()->AddAnimationFrameData("LeftShadowBladeStand", i * 65.f, 0.f, 65.f, 67.f);
+	}
+
+	GetSceneResource()->CreateAnimationSequence("RightShadowBladeMove", "RightShadowBladeMove", TEXT("Monster/ShadowBlade/Move/R/Move.bmp"));
+
+	GetSceneResource()->SetTextureColorKey("RightShadowBladeMove", 255, 0, 255);
+
+	for (int i = 0; i < 4; i++)
+	{
+		GetSceneResource()->AddAnimationFrameData("RightShadowBladeMove", i * 65.f, 0.f, 65.f, 67.f);
+	}
+
+	GetSceneResource()->CreateAnimationSequence("LeftShadowBladeMove", "LeftShadowBladeMove", TEXT("Monster/ShadowBlade/Move/L/Move.bmp"));
+
+	GetSceneResource()->SetTextureColorKey("LeftShadowBladeMove", 255, 0, 255);
+
+	for (int i = 0; i < 4; i++)
+	{
+		GetSceneResource()->AddAnimationFrameData("LeftShadowBladeMove", i * 65.f, 0.f, 65.f, 67.f);
 	}
 }
 
