@@ -16,8 +16,7 @@ CPlayer::CPlayer() : m_Skill1Enable(false), m_Skill1Time(0.f)
 
 CPlayer::CPlayer(const CPlayer& obj) : CCharacter(obj)
 {
-	m_Skill1Time = obj.m_Skill1Time;
-	m_Skill1Enable = false;
+	
 }
 
 CPlayer::~CPlayer()
@@ -32,6 +31,7 @@ void CPlayer::Start()
 	CInput::GetInst()->SetCallback<CPlayer>("MoveRight", KeyState_Push, this, &CPlayer::MoveRight);
 	CInput::GetInst()->SetCallback<CPlayer>("PhantomBlow", KeyState_Down, this, &CPlayer::PhantomBlow);
 	CInput::GetInst()->SetCallback<CPlayer>("BladeFury", KeyState_Down, this, &CPlayer::BladeFury);
+	CInput::GetInst()->SetCallback<CPlayer>("Jump", KeyState_Down, this, &CPlayer::JumpKey);
 }
 
 bool CPlayer::Init()

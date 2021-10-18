@@ -75,6 +75,15 @@ public:
 	template <typename T>
 	T* CreateObject(const std::string& Name, const Vector2& Pos = Vector2(0.f, 0.f), const Vector2 Size = Vector2(100.f, 100.f))
 	{
+		CGameObject* GameObject = FindObject(Name);
+
+		if (GameObject)
+		{
+			T* CloneObj = (T*)GameObject->Clone();
+
+			return CloneObj;
+		}
+
 		T* Obj = new T;
 
 		Obj->SetScene(this);

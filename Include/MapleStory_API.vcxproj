@@ -180,6 +180,7 @@
     <ClInclude Include="Object\BladeFury.h" />
     <ClInclude Include="Object\Character.h" />
     <ClInclude Include="Object\GameObject.h" />
+    <ClInclude Include="Object\Monster.h" />
     <ClInclude Include="Object\PhantomBlow.h" />
     <ClInclude Include="Object\Player.h" />
     <ClInclude Include="Object\ShadowBlade.h" />
@@ -240,6 +241,7 @@
     <ClCompile Include="Object\BladeFury.cpp" />
     <ClCompile Include="Object\Character.cpp" />
     <ClCompile Include="Object\GameObject.cpp" />
+    <ClCompile Include="Object\Monster.cpp" />
     <ClCompile Include="Object\PhantomBlow.cpp" />
     <ClCompile Include="Object\Player.cpp" />
     <ClCompile Include="Object\ShadowBlade.cpp" />

@@ -284,6 +284,14 @@ LRESULT CGameManager::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 {
     switch (message)
     {
+    case WM_SYSKEYUP:
+        switch (wParam)
+        {
+        case VK_MENU:
+            break;
+        }
+        break;
+
     case WM_PAINT:
     {
         PAINTSTRUCT ps;

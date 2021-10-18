@@ -151,6 +151,8 @@ bool CInput::Init(HWND hWnd)
 	SetCtrlKey("PhantomBlow", true);
 	CreateKey("BladeFury", VK_LSHIFT);
 	SetShiftKey("BladeFury", true);
+	CreateKey("Jump", VK_MENU);
+	SetAltKey("Jump", true);
 	
 
 	CreateKey("Skill1", '1');

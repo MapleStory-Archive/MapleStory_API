@@ -68,3 +68,13 @@ enum class ETileEditMode
 	Image, 
 	End
 };
+
+
+enum class EMonsterAI
+{
+	Idle,
+	Move, 
+	Trace,
+	Attack,
+	Death,
+};

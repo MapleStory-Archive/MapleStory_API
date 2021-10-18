@@ -219,21 +219,40 @@ void CTutorialMap::LoadAnimationSequence()
 
 	GetSceneResource()->SetTextureColorKey("RightShadowBladeMove", 255, 0, 255);
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 6; i++)
 	{
-		GetSceneResource()->AddAnimationFrameData("RightShadowBladeMove", i * 65.f, 0.f, 65.f, 67.f);
+		GetSceneResource()->AddAnimationFrameData("RightShadowBladeMove", i * 64.f, 0.f, 64.f, 63.f);
 	}
 
 	GetSceneResource()->CreateAnimationSequence("LeftShadowBladeMove", "LeftShadowBladeMove", TEXT("Monster/ShadowBlade/Move/L/Move.bmp"));
 
 	GetSceneResource()->SetTextureColorKey("LeftShadowBladeMove", 255, 0, 255);
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 6; i++)
 	{
-		GetSceneResource()->AddAnimationFrameData("LeftShadowBladeMove", i * 65.f, 0.f, 65.f, 67.f);
+		GetSceneResource()->AddAnimationFrameData("LeftShadowBladeMove", i * 64.f, 0.f, 64.f, 63.f);
+	}
+
+	GetSceneResource()->CreateAnimationSequence("RightShadowBladeAttack", "RightShadowBladeAttack", TEXT("Monster/ShadowBlade/Attack/R/Attack.bmp"));
+
+	GetSceneResource()->SetTextureColorKey("RightShadowBladeAttack", 255, 0, 255);
+
+	for (int i = 0; i < 9; i++)
+	{
+		GetSceneResource()->AddAnimationFrameData("RightShadowBladeAttack", i * 153.f, 0.f, 153.f, 137.f);
+	}
+
+	GetSceneResource()->CreateAnimationSequence("LeftShadowBladeAttack", "LeftShadowBladeAttack", TEXT("Monster/ShadowBlade/Attack/L/Attack.bmp"));
+
+	GetSceneResource()->SetTextureColorKey("LeftShadowBladeAttack", 255, 0, 255);
+
+	for (int i = 0; i < 9; i++)
+	{
+		GetSceneResource()->AddAnimationFrameData("LeftShadowBladeAttack", i * 153.f, 0.f, 153.f, 137.f);
 	}
 }
 
 void CTutorialMap::LoadSound()
 {
+	GetSceneResource()->LoadSound("BGM", true, "BGM", "secretFlower.mp3");
 }

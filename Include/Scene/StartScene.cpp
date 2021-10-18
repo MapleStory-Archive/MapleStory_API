@@ -42,5 +42,6 @@ void CStartScene::LoadAnimationSequence()
 
 void CStartScene::LoadSound()
 {
-	
+	GetSceneResource()->LoadSound("BGM", true, "BGM", "secretFlower.mp3");
+	GetSceneResource()->SoundPlay("BGM");
 }
