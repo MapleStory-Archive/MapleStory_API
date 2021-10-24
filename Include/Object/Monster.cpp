@@ -52,6 +52,13 @@ CMonster* CMonster::Clone()
 	return new CMonster(*this);
 }
 
+float CMonster::SetDamage(float Damage)
+{
+	Damage = CCharacter::SetDamage(Damage);
+
+	return Damage;
+}
+
 void CMonster::AIIdle(float DeltaTime)
 {
 }

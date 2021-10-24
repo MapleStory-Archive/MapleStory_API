@@ -33,6 +33,12 @@ private:
 	AnimationInfo* FindInfo(const std::string& Name);
 
 public:
+	int GetFrame() const
+	{
+		return m_CurrentAnimation->Frame;
+	}
+
+public:
 	template <typename T>
 	void SetEndNotify(const std::string& SequenceName, T* Obj, void (T::* Func)())
 	{

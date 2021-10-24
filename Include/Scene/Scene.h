@@ -4,6 +4,7 @@
 #include "../Object/GameObject.h"
 #include "../UI/UIWindow.h"
 #include "../Map/TileMap.h"
+#include "../Object/DamageFont.h"
 
 class CScene
 {
@@ -75,15 +76,41 @@ public:
 	template <typename T>
 	T* CreateObject(const std::string& Name, const Vector2& Pos = Vector2(0.f, 0.f), const Vector2 Size = Vector2(100.f, 100.f))
 	{
-		CGameObject* GameObject = FindObject(Name);
+		CGameObject* GameObject = FindObject(Name);	
 
 		if (GameObject)
 		{
 			T* CloneObj = (T*)GameObject->Clone();
 
+			CloneObj->SetScene(this);
+			CloneObj->SetPos(Pos);
+			CloneObj->SetSize(Size);
+			CloneObj->SetName(Name);
+
 			return CloneObj;
 		}
 
+		T* Obj = new T;
+
+		Obj->SetScene(this);
+		Obj->SetPos(Pos);
+		Obj->SetSize(Size);
+		Obj->SetName(Name);
+
+		if (!Obj->Init())
+		{
+			SAFE_DELETE(Obj);
+			return nullptr;
+		}
+
+		m_ObjList.push_back(Obj);
+
+		return Obj;
+	}
+
+	template <typename T>
+	T* CreateDamageFont(const std::string& Name, const Vector2& Pos = Vector2(0.f, 0.f), const Vector2 Size = Vector2(100.f, 100.f))
+	{		
 		T* Obj = new T;
 
 		Obj->SetScene(this);
@@ -127,7 +154,9 @@ public:
 		CGameObject* Prototype = FindPrototype(PrototypeName);
 
 		if (!Prototype)
+		{
 			return nullptr;
+		}
 
 		T* Obj = (T*)Prototype->Clone();
 

@@ -179,10 +179,12 @@
     <ClInclude Include="Math.h" />
     <ClInclude Include="Object\BladeFury.h" />
     <ClInclude Include="Object\Character.h" />
+    <ClInclude Include="Object\DamageFont.h" />
     <ClInclude Include="Object\GameObject.h" />
     <ClInclude Include="Object\Monster.h" />
     <ClInclude Include="Object\PhantomBlow.h" />
     <ClInclude Include="Object\Player.h" />
+    <ClInclude Include="Object\Potal.h" />
     <ClInclude Include="Object\ShadowBlade.h" />
     <ClInclude Include="PathManager.h" />
     <ClInclude Include="Ref.h" />
@@ -195,6 +197,7 @@
     <ClInclude Include="Scene\Camera.h" />
     <ClInclude Include="Scene\EditorDlg.h" />
     <ClInclude Include="Scene\EditorScene.h" />
+    <ClInclude Include="Scene\MainMap.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\SceneCollision.h" />
     <ClInclude Include="Scene\SceneManager.h" />
@@ -240,10 +243,12 @@
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Object\BladeFury.cpp" />
     <ClCompile Include="Object\Character.cpp" />
+    <ClCompile Include="Object\DamageFont.cpp" />
     <ClCompile Include="Object\GameObject.cpp" />
     <ClCompile Include="Object\Monster.cpp" />
     <ClCompile Include="Object\PhantomBlow.cpp" />
     <ClCompile Include="Object\Player.cpp" />
+    <ClCompile Include="Object\Potal.cpp" />
     <ClCompile Include="Object\ShadowBlade.cpp" />
     <ClCompile Include="PathManager.cpp" />
     <ClCompile Include="Ref.cpp" />
@@ -255,6 +260,7 @@
     <ClCompile Include="Scene\Camera.cpp" />
     <ClCompile Include="Scene\EditorDlg.cpp" />
     <ClCompile Include="Scene\EditorScene.cpp" />
+    <ClCompile Include="Scene\MainMap.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\SceneCollision.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />

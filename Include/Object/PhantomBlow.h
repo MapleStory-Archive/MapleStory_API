@@ -14,6 +14,7 @@ protected:
 
 private:
 	bool m_Direction;
+	bool m_IsHit;
 
 public:
 	virtual void Start();
@@ -27,5 +28,8 @@ public:
 public:
 	void ChangeAnimation(bool Direction);
 	void AnimationFinish();
+
+	void ColliderBegin(class CCollider* Src, class CCollider* Dest, float DeltaTime);
+	void Attack();
 };
 

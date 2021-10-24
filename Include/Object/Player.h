@@ -13,6 +13,7 @@ public:
 
 protected:
 	bool m_Skill1Enable;
+	bool m_AttackEnable;
 	float m_Skill1Time;
 	CSharedPtr<CWidgetComponent> m_StatusWidget;
 	CSharedPtr<CWidgetComponent> m_NameWidget;
@@ -45,6 +46,8 @@ public:
 	void Pause(float DeltaTime);
 	void Resume(float DeltaTime);
 	void JumpKey(float DeltaTime);
+
+	void Potal(float DeltaTime);
 
 public:
 	void AttackEnd();

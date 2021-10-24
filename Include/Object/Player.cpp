@@ -1,5 +1,7 @@
 #include "Player.h"
 #include "../Scene/Scene.h"
+#include "../Scene/SceneManager.h"
+#include "../Scene/MainMap.h"
 #include "../Input.h"
 #include "../GameManager.h"
 #include "../Collision/ColliderBox.h"
@@ -10,7 +12,7 @@
 #include "PhantomBlow.h"
 #include "BladeFury.h"
 
-CPlayer::CPlayer() : m_Skill1Enable(false), m_Skill1Time(0.f)
+CPlayer::CPlayer() : m_Skill1Enable(false), m_Skill1Time(0.f), m_AttackEnable(false)
 {
 }
 
@@ -32,6 +34,7 @@ void CPlayer::Start()
 	CInput::GetInst()->SetCallback<CPlayer>("PhantomBlow", KeyState_Down, this, &CPlayer::PhantomBlow);
 	CInput::GetInst()->SetCallback<CPlayer>("BladeFury", KeyState_Down, this, &CPlayer::BladeFury);
 	CInput::GetInst()->SetCallback<CPlayer>("Jump", KeyState_Down, this, &CPlayer::JumpKey);
+	CInput::GetInst()->SetCallback<CPlayer>("Potal", KeyState_Down, this, &CPlayer::Potal);
 }
 
 bool CPlayer::Init()
@@ -185,58 +188,80 @@ void CPlayer::MoveDown(float DeltaTime)
 
 void CPlayer::MoveLeft(float DeltaTime)
 {
-	Move(Vector2(-1.f, 0.f));
+	if (!m_AttackEnable)
+	{
+		Move(Vector2(-1.f, 0.f));
 
-	SetDirection(true);
+		SetDirection(true);
 
-	ChangeAnimation("PlayerLeftWalk");
+		ChangeAnimation("PlayerLeftWalk");
+	}
 }
 
 void CPlayer::MoveRight(float DeltaTime)
 {
-	Move(Vector2(1.f, 0.f));
+	if (!m_AttackEnable)
+	{
+		Move(Vector2(1.f, 0.f));
 
-	SetDirection(false);
+		SetDirection(false);
 
-	ChangeAnimation("PlayerRightWalk");
+		ChangeAnimation("PlayerRightWalk");
+	}
 }
 
 void CPlayer::PhantomBlow(float DeltaTime)
 {
 	bool Direction = GetDirection();
 
-	if (Direction)
+	if (!m_AttackEnable)
 	{
-		CPhantomBlow* Effect = m_Scene->CreateObject<CPhantomBlow>("LeftPhantomBlow", "LeftPhantomBlow", Vector2(m_Pos.x - m_Size.x, m_Pos.y - 50.f), Vector2(412.f, 210.f));
+		if (Direction)
+		{
+			m_AttackEnable = true;
 
-		ChangeAnimation("PlayerLeftPhantomBlow");
+			CPhantomBlow* Effect = m_Scene->CreateObject<CPhantomBlow>("LeftPhantomBlow", "LeftPhantomBlow", Vector2(m_Pos.x - m_Size.x, m_Pos.y - 50.f), Vector2(412.f, 210.f));
+
+			ChangeAnimation("PlayerLeftPhantomBlow");
+		}
+
+		else
+		{
+			m_AttackEnable = true;
+
+			CPhantomBlow* Effect = m_Scene->CreateObject<CPhantomBlow>("RightPhantomBlow", "RightPhantomBlow", Vector2(m_Pos.x + m_Size.x, m_Pos.y - 50.f), Vector2(412.f, 210.f));
+
+			ChangeAnimation("PlayerRightPhantomBlow");
+		}
 	}
-	
-	else
-	{
-		CPhantomBlow* Effect = m_Scene->CreateObject<CPhantomBlow>("RightPhantomBlow", "RightPhantomBlow", Vector2(m_Pos.x + m_Size.x, m_Pos.y - 50.f), Vector2(412.f, 210.f));
 
-		ChangeAnimation("PlayerRightPhantomBlow");
-	}	
+		
 }
 
 void CPlayer::BladeFury(float DeltaTime)
 {
 	bool Direction = GetDirection();
 
-	if (Direction)
+	if (!m_AttackEnable)
 	{
-		CBladeFury* Effect = m_Scene->CreateObject<CBladeFury>("BladeFury", "BladeFury", Vector2(m_Pos.x, m_Pos.y - m_Size.y), Vector2(469.f, 195.f));
+		if (Direction)
+		{
+			m_AttackEnable = true;
 
-		ChangeAnimation("PlayerLeftBladeFury");
-	}
+			CBladeFury* Effect = m_Scene->CreateObject<CBladeFury>("BladeFury", "BladeFury", Vector2(m_Pos.x, m_Pos.y - m_Size.y), Vector2(469.f, 195.f));
 
-	else
-	{
-		CBladeFury* Effect = m_Scene->CreateObject<CBladeFury>("BladeFury", "BladeFury", Vector2(m_Pos.x, m_Pos.y - m_Size.y), Vector2(469.f, 195.f));
+			ChangeAnimation("PlayerLeftBladeFury");
+		}
 
-		ChangeAnimation("PlayerRightBladeFury");
-	}
+		else
+		{
+			m_AttackEnable = true;
+
+			CBladeFury* Effect = m_Scene->CreateObject<CBladeFury>("BladeFury", "BladeFury", Vector2(m_Pos.x, m_Pos.y - m_Size.y), Vector2(469.f, 195.f));
+
+			ChangeAnimation("PlayerRightBladeFury");
+		}
+	}	
 }
 
 void CPlayer::Pause(float DeltaTime)
@@ -254,16 +279,25 @@ void CPlayer::JumpKey(float DeltaTime)
 	Jump();
 }
 
+void CPlayer::Potal(float DeltaTime)
+{
+	CSceneManager::GetInst()->CreateScene<CMainMap>();
+}
+
 void CPlayer::AttackEnd()
 {
 	if (m_Direction)
 	{
 		ChangeAnimation("PlayerLeftIdle");
+
+		m_AttackEnable = false;
 	}
 
 	else
 	{
 		ChangeAnimation("PlayerRightIdle");
+
+		m_AttackEnable = false;
 	}
 }
 

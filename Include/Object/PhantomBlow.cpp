@@ -2,8 +2,9 @@
 #include "Player.h"
 #include "../Scene/Scene.h"
 #include "../Collision/ColliderBox.h"
+#include "DamageFont.h"
 
-CPhantomBlow::CPhantomBlow() : m_Direction(false)
+CPhantomBlow::CPhantomBlow() : m_Direction(false), m_IsHit(false)
 {
 	m_ObjType = EObject_Type::Effect;
 }
@@ -23,11 +24,19 @@ void CPhantomBlow::Start()
 
 	if (m_Direction)
 	{
+		CCollider* Body = FindCollider("Body");
+
+		Body->SetCollisionBeginFunction<CPhantomBlow>(this, &CPhantomBlow::ColliderBegin);
+
 		SetAnimationEndNotify<CPhantomBlow>("LeftPhantomBlow", this, &CPhantomBlow::AnimationFinish);
 	}
 
 	else
 	{
+		CCollider* Body = FindCollider("Body");
+
+		Body->SetCollisionBeginFunction<CPhantomBlow>(this, &CPhantomBlow::ColliderBegin);
+
 		SetAnimationEndNotify<CPhantomBlow>("RightPhantomBlow", this, &CPhantomBlow::AnimationFinish);
 	}
 	
@@ -48,12 +57,22 @@ bool CPhantomBlow::Init(bool Direction)
 	{
 		CreateAnimation();
 		AddAnimation("LeftPhantomBlow", false);
+
+		CColliderBox* Body = AddCollider<CColliderBox>("Body");
+		Body->SetExtent(230.f, 130.f);
+		Body->SetOffset(-80.f, 0.f);
+		Body->SetCollisionProfile("PlayerAttack");
 	}
 
 	else
 	{
 		CreateAnimation();
 		AddAnimation("RightPhantomBlow", false);
+
+		CColliderBox* Body = AddCollider<CColliderBox>("Body");
+		Body->SetExtent(230.f, 130.f);
+		Body->SetOffset(80.f, 0.f);
+		Body->SetCollisionProfile("PlayerAttack");
 	}
 
 	return true;
@@ -92,4 +111,42 @@ void CPhantomBlow::ChangeAnimation(bool Direction)
 void CPhantomBlow::AnimationFinish()
 {
 	Destroy();
+}
+
+void CPhantomBlow::ColliderBegin(CCollider* Src, CCollider* Dest, float DeltaTime)
+{
+	if (Dest->GetProfile()->Name == "Monster")
+	{
+		m_IsHit = true;
+
+		for (int i = 0; i < 6; i++)
+		{
+			if (m_Direction)
+			{
+				AddAnimationNotify<CPhantomBlow>("LeftPhantomBlow", i, this, &CPhantomBlow::Attack);
+			}
+
+			else
+			{
+				AddAnimationNotify<CPhantomBlow>("RightPhantomBlow", i, this, &CPhantomBlow::Attack);
+			}
+		}
+	}
+}
+
+void CPhantomBlow::Attack()
+{
+	CGameObject* Monster = m_Scene->FindObject("ShadowBlade");
+
+	Vector2 Pos = Monster->GetPos() - Monster->GetSize();
+
+	Vector2 Size = Monster->GetSize();
+
+	int Frame = m_Animation->GetFrame();
+
+	Monster->SetDamage(10);
+
+	CDamageFont* DamageFont = m_Scene->CreateDamageFont<CDamageFont>("DamageFont", Vector2(Pos.x, Pos.y - (Size.y / 2) - (Frame * 30)));
+
+	DamageFont->SetDamageNumber(10);
 }

@@ -1,9 +1,11 @@
 #include "Shadowblade.h"
 #include "../Scene/Scene.h"
+#include "../Collision/Collider.h"
+#include "../Collision/CollisionManager.h"
 #include "../Collision/ColliderBox.h"
 #include "../Collision/ColliderSphere.h"
 
-CShadowBlade::CShadowBlade() : m_IsAttack(false), m_IsAttackAni(false)
+CShadowBlade::CShadowBlade() : m_IsAttack(false), m_IsAttackAni(false), m_IsHit(false)
 {
 }
 
@@ -29,11 +31,29 @@ void CShadowBlade::Start()
 	AttackSense->SetCollisionBeginFunction<CShadowBlade>(this, &CShadowBlade::CollisionAttackBegin);
 	AttackSense->SetCollisionEndFunction<CShadowBlade>(this, &CShadowBlade::CollisionAttackEnd);
 
+	CCollider* LeftAttackCollider = FindCollider("LeftAttackBox");
+
+	LeftAttackCollider->SetCollisionBeginFunction<CShadowBlade>(this, &CShadowBlade::CollisionHitBegin);
+	LeftAttackCollider->SetCollisionEndFunction<CShadowBlade>(this, &CShadowBlade::CollisionHitEnd);
+
+	CCollider* RightAttackCollider = FindCollider("RightAttackBox");
+
+	RightAttackCollider->SetCollisionBeginFunction<CShadowBlade>(this, &CShadowBlade::CollisionHitBegin);
+	RightAttackCollider->SetCollisionEndFunction<CShadowBlade>(this, &CShadowBlade::CollisionHitEnd);
+
+
 	AddAnimationNotify<CShadowBlade>("RightShadowBladeAttack", 0, this, &CShadowBlade::AttackAnimationStart);
 	AddAnimationNotify<CShadowBlade>("LeftShadowBladeAttack", 0, this, &CShadowBlade::AttackAnimationStart);
 
+	AddAnimationNotify<CShadowBlade>("RightShadowBladeAttack", 6, this, &CShadowBlade::AttackStart);
+	AddAnimationNotify<CShadowBlade>("LeftShadowBladeAttack", 6, this, &CShadowBlade::AttackStart);
+
+	AddAnimationNotify<CShadowBlade>("RightShadowBladeAttack", 7, this, &CShadowBlade::AttackEnd);
+	AddAnimationNotify<CShadowBlade>("LeftShadowBladeAttack", 7, this, &CShadowBlade::AttackEnd);
+
 	AddAnimationNotify<CShadowBlade>("RightShadowBladeAttack", 8, this, &CShadowBlade::AttackAnimationEnd);
 	AddAnimationNotify<CShadowBlade>("LeftShadowBladeAttack", 8, this, &CShadowBlade::AttackAnimationEnd);
+
 }
 
 bool CShadowBlade::Init()
@@ -56,12 +76,21 @@ bool CShadowBlade::Init()
 	CColliderBox* Trace = AddCollider<CColliderBox>("Trace");
 	Trace->SetExtent(500.f, 300.f);
 	Trace->SetOffset(0.f, -100.f);
-	Trace->SetCollisionProfile("Monster");
 
 	CColliderBox* AttackSense = AddCollider<CColliderBox>("AttackSense");
 	AttackSense->SetExtent(50.f, 100.f);
 	AttackSense->SetOffset(0.f, -36.5f);
 	AttackSense->SetCollisionProfile("Monster");
+
+	CColliderBox* LeftAttackBox = AddCollider<CColliderBox>("LeftAttackBox");
+	LeftAttackBox->SetExtent(50.f, 100.f);
+	LeftAttackBox->SetOffset(-50.f, -36.5f);
+	LeftAttackBox->SetCollisionProfile("MonsterAttack");
+
+	CColliderBox* RightAttackBox = AddCollider<CColliderBox>("RightAttackBox");
+	RightAttackBox->SetExtent(50.f, 100.f);
+	RightAttackBox->SetOffset(50.f, -36.5f);
+	RightAttackBox->SetCollisionProfile("MonsterAttack");
 
 	m_MoveSpeed = 100.f;
 
@@ -129,7 +158,17 @@ void CShadowBlade::Update(float DeltaTime)
 				m_RandActive = (float)(rand() % 2);
 			}
 		}
-	}	
+	}
+
+	if (CheckCurrentAnimation("RightShadowBladeAttack") || CheckCurrentAnimation("LeftShadowBladeAttack"))
+	{
+		SetOffset(0.f, 10.f);
+	}
+
+	else
+	{
+		SetOffset(0.f, 0.f);
+	}
 
 	switch (m_AI)
 	{
@@ -173,6 +212,13 @@ void CShadowBlade::Render(HDC hDC)
 CShadowBlade* CShadowBlade::Clone()
 {
 	return new CShadowBlade(*this);
+}
+
+float CShadowBlade::SetDamage(float Damage)
+{
+	Damage = CCharacter::SetDamage(Damage);
+
+	return Damage;
 }
 
 void CShadowBlade::AIIdle(float DeltaTime)
@@ -263,7 +309,10 @@ void CShadowBlade::AIDeath(float DeltaTime)
 
 void CShadowBlade::CollisionTargetBegin(CCollider* Src, CCollider* Dest, float DeltaTime)
 {
-	m_IsTarget = true;
+	if (Dest->GetOwner()->GetName() == "Player")
+	{
+		m_IsTarget = true;
+	}
 }
 
 void CShadowBlade::CollisionTargetEnd(CCollider* Src, CCollider* Dest, float DeltaTime)
@@ -273,7 +322,10 @@ void CShadowBlade::CollisionTargetEnd(CCollider* Src, CCollider* Dest, float Del
 
 void CShadowBlade::CollisionAttackBegin(CCollider* Src, CCollider* Dest, float DeltaTime)
 {
-	m_IsAttack = true;
+	if (Dest->GetOwner()->GetName() == "Player")
+	{
+		m_IsAttack = true;
+	}	
 }
 
 void CShadowBlade::CollisionAttackEnd(CCollider* Src, CCollider* Dest, float DeltaTime)
@@ -307,4 +359,29 @@ void CShadowBlade::AttackAnimationEnd()
 	{
 		m_Direction = false;
 	}
+}
+
+void CShadowBlade::AttackStart()
+{
+	if (m_IsHit)
+	{
+		CGameObject* Player = m_Scene->GetPlayer();
+
+		Player->SetDamage(10);
+	}
+}
+
+void CShadowBlade::AttackEnd()
+{
+
+}
+
+void CShadowBlade::CollisionHitBegin(class CCollider* Src, class CCollider* Dest, float DeltaTime)
+{
+	m_IsHit = true;
+}
+
+void CShadowBlade::CollisionHitEnd(class CCollider* Src, class CCollider* Dest, float DeltaTime)
+{
+	m_IsHit = false;
 }

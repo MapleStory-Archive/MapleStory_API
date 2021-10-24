@@ -4,6 +4,7 @@
 #include "../Object/PhantomBlow.h"
 #include "../Object/BladeFury.h"
 #include "../Object/ShadowBlade.h"
+#include "../Object/Potal.h"
 #include "SceneResource.h"
 #include "Camera.h"
 #include "../UI/UITutorial.h"
@@ -51,7 +52,9 @@ bool CTutorialMap::Init()
 	GetCamera()->SetTarget(Player);
 	GetCamera()->SetTargetPivot(0.5f, 0.5f);
 
-	CShadowBlade* ShadowBlade = CreateObject<CShadowBlade>("ShadowBlade", Vector2(1000.f, 650.f));
+	//CShadowBlade* ShadowBlade = CreateObject<CShadowBlade>("ShadowBlade", Vector2(1000.f, 650.f));
+
+	CPotal* Potal = CreateObject<CPotal>("Potal", Vector2(1360.f, 508.f));
 
 	CScrollMap* Map = CreateMap<CScrollMap>("ScrollMap");
 	Map->SetSize(1500.f, 770.f);
@@ -61,7 +64,7 @@ bool CTutorialMap::Init()
 	Map->SetZOrder(0);
 
 	Player->SetRange(1500.f, 770.f);
-	ShadowBlade->SetRange(1500.f, 770.f);
+	//ShadowBlade->SetRange(1500.f, 770.f);
 
 	CTileMap* TileMap = CreateMap<CTileMap>("TutorialMap", Vector2(0.f, 0.f), Vector2(1500.f, 770.f));
 
@@ -249,6 +252,16 @@ void CTutorialMap::LoadAnimationSequence()
 	for (int i = 0; i < 9; i++)
 	{
 		GetSceneResource()->AddAnimationFrameData("LeftShadowBladeAttack", i * 153.f, 0.f, 153.f, 137.f);
+	}
+
+	// Æ÷Å»
+	GetSceneResource()->CreateAnimationSequence("Potal", "Potal", TEXT("Potal.bmp"));
+
+	GetSceneResource()->SetTextureColorKey("Potal", 255, 0, 255);
+
+	for (int i = 0; i < 8; i++)
+	{
+		GetSceneResource()->AddAnimationFrameData("Potal", i * 104.f, 0.f, 104.f, 142.f);
 	}
 }
 

@@ -282,6 +282,15 @@
     <ClInclude Include="Object\Monster.h">
       <Filter>03. Object\01. Character</Filter>
     </ClInclude>
+    <ClInclude Include="Object\DamageFont.h">
+      <Filter>03. Object\02. Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Potal.h">
+      <Filter>03. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\MainMap.h">
+      <Filter>02. Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MapleStory_API.rc">
@@ -446,6 +455,15 @@
     </ClCompile>
     <ClCompile Include="Object\Monster.cpp">
       <Filter>03. Object\01. Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\DamageFont.cpp">
+      <Filter>03. Object\02. Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Potal.cpp">
+      <Filter>03. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\MainMap.cpp">
+      <Filter>02. Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

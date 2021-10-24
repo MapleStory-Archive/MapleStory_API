@@ -10,6 +10,7 @@ class CShadowBlade :
 private:
 	bool m_IsAttack;
 	bool m_IsAttackAni;
+	bool m_IsHit;
 
 public:
 	CShadowBlade();
@@ -24,6 +25,7 @@ public:
 	virtual void Collision(float DeltaTime);
 	virtual void Render(HDC hDC);
 	virtual CShadowBlade* Clone();
+	virtual float SetDamage(float Damage);
 
 protected:
 	virtual void AIIdle(float DeltaTime);
@@ -41,5 +43,12 @@ public:
 
 	void AttackAnimationStart();
 	void AttackAnimationEnd();
+
+	void AttackStart();
+	void AttackEnd();
+
+protected:
+	virtual void CollisionHitBegin(class CCollider* Src, class CCollider* Dest, float DeltaTime);
+	virtual void CollisionHitEnd(class CCollider* Src, class CCollider* Dest, float DeltaTime);
 };
 

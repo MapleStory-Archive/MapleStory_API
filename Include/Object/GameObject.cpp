@@ -34,9 +34,12 @@ CGameObject::CGameObject(const CGameObject& obj) : CRef(obj)
 	if (obj.m_Animation)
 	{
 		m_Animation = obj.m_Animation->Clone();
-	}	
+	}
 
-	m_Animation->m_Owner = this;
+	if (m_Animation)
+	{
+		m_Animation->m_Owner = this;
+	}
 
 	m_ColliderList.clear();
 
