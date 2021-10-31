@@ -3,6 +3,7 @@
 #include "UIImage.h"
 #include "../GameManager.h"
 #include "../Scene/TutorialMap.h"
+#include "../Scene/BossWillPase2.h"
 #include "../Scene/EditorScene.h"
 #include "../Scene/SceneManager.h"
 #include "UIText.h"
@@ -74,7 +75,8 @@ bool CUIStart::Init()
 
 void CUIStart::StartClick()
 {
-	CSceneManager::GetInst()->CreateScene<CTutorialMap>();
+	//CSceneManager::GetInst()->CreateScene<CTutorialMap>("TutorialMap");
+	CSceneManager::GetInst()->CreateScene<CBossWillPase2>("BossWillPase2");
 }
 
 void CUIStart::ExitClick()
@@ -84,5 +86,5 @@ void CUIStart::ExitClick()
 
 void CUIStart::EditorClick()
 {
-	CSceneManager::GetInst()->CreateScene<CEditorScene>();
+	CSceneManager::GetInst()->CreateScene<CEditorScene>("EditorScene");
 }

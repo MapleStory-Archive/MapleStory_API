@@ -136,9 +136,9 @@ void CPhantomBlow::ColliderBegin(CCollider* Src, CCollider* Dest, float DeltaTim
 
 void CPhantomBlow::Attack()
 {
-	CGameObject* Monster = m_Scene->FindObject("ShadowBlade");
+	CGameObject* Monster = m_Scene->FindObject("Monster");
 
-	Vector2 Pos = Monster->GetPos() - Monster->GetSize();
+	Vector2 Pos = Monster->GetPos();
 
 	Vector2 Size = Monster->GetSize();
 
@@ -146,7 +146,7 @@ void CPhantomBlow::Attack()
 
 	Monster->SetDamage(10);
 
-	CDamageFont* DamageFont = m_Scene->CreateDamageFont<CDamageFont>("DamageFont", Vector2(Pos.x, Pos.y - (Size.y / 2) - (Frame * 30)));
+	CDamageFont* DamageFont = m_Scene->CreateDamageFont<CDamageFont>("DamageFont", Vector2(Pos.x - 31.f, Pos.y - (Size.y / 2) - (Frame * 30)));
 
 	DamageFont->SetDamageNumber(10);
 }

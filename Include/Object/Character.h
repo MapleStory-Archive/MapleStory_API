@@ -1,5 +1,7 @@
 #pragma once
+
 #include "GameObject.h"
+
 class CCharacter :
     public CGameObject
 {
@@ -33,6 +35,17 @@ public:
 	virtual void SetAttackSpeed(float Speed)
 	{
 		m_CharacterInfo.AttackSpeed = Speed;
+	}
+
+public:
+	void SetCharacterInfo(CharacterInfo characterInfo)
+	{
+		m_CharacterInfo = characterInfo;
+	}
+
+	CharacterInfo GetCharacterInfo() const
+	{
+		return m_CharacterInfo;
 	}
 
 public:

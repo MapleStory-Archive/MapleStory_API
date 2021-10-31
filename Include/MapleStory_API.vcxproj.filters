@@ -291,6 +291,30 @@
     <ClInclude Include="Scene\MainMap.h">
       <Filter>02. Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Object\GameObjectManager.h">
+      <Filter>03. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\BossWillPase2.h">
+      <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\WillPase2.h">
+      <Filter>03. Object\01. Character</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIBossWillPase2.h">
+      <Filter>07. UI\02. Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\DownSpiderLeg.h">
+      <Filter>03. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Crack.h">
+      <Filter>03. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\UpSpiderLeg.h">
+      <Filter>03. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UINotice.h">
+      <Filter>07. UI\02. Window</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MapleStory_API.rc">
@@ -464,6 +488,30 @@
     </ClCompile>
     <ClCompile Include="Scene\MainMap.cpp">
       <Filter>02. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\GameObjectManager.cpp">
+      <Filter>03. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\BossWillPase2.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\WillPase2.cpp">
+      <Filter>03. Object\01. Character</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIBossWillPase2.cpp">
+      <Filter>07. UI\02. Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\DownSpiderLeg.cpp">
+      <Filter>03. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Crack.cpp">
+      <Filter>03. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\UpSpiderLeg.cpp">
+      <Filter>03. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UINotice.cpp">
+      <Filter>07. UI\02. Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

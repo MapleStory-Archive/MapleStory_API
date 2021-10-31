@@ -7,11 +7,6 @@ class CShadowBlade :
 {
 	friend class CScene;
 
-private:
-	bool m_IsAttack;
-	bool m_IsAttackAni;
-	bool m_IsHit;
-
 public:
 	CShadowBlade();
 	CShadowBlade(const CShadowBlade& obj);
@@ -47,8 +42,8 @@ public:
 	void AttackStart();
 	void AttackEnd();
 
-protected:
-	virtual void CollisionHitBegin(class CCollider* Src, class CCollider* Dest, float DeltaTime);
-	virtual void CollisionHitEnd(class CCollider* Src, class CCollider* Dest, float DeltaTime);
+public:
+	void CollisionHitBegin(class CCollider* Src, class CCollider* Dest, float DeltaTime);
+	void CollisionHitEnd(class CCollider* Src, class CCollider* Dest, float DeltaTime);
 };
 

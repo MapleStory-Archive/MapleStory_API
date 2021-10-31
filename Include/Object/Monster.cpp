@@ -1,6 +1,7 @@
 #include "Monster.h"
 
-CMonster::CMonster() : m_ActiveTime(0.f), m_AI(EMonsterAI::Idle), m_DetectDistance(500.f), m_AttackDistance(200.f), m_AttackEnable(false), m_IsMove(false), m_RandActive(0.f), m_IsTarget(false)
+CMonster::CMonster() : m_ActiveTime(0.f), m_AI(EMonsterAI::Idle), m_DetectDistance(500.f), m_AttackDistance(200.f), m_AttackEnable(false), m_IsMove(0), m_RandActive(0.f), m_IsTarget(false), 
+	m_IsAttack(false), m_IsAttackAni(false), m_IsHit(false)
 {
 }
 

@@ -1,11 +1,13 @@
 #include "MainMap.h"
+#include "TutorialMap.h"
 #include "../GameManager.h"
+#include "../Object/GameObjectManager.h"
 #include "../Object/Player.h"
 #include "../Object/PhantomBlow.h"
 #include "../Object/BladeFury.h"
-#include "../Object/ShadowBlade.h"
 #include "../Object/Potal.h"
 #include "SceneResource.h"
+#include "SceneManager.h"
 #include "Camera.h"
 #include "../UI/UITutorial.h"
 #include "../UI/UICharacterStateHUD.h"
@@ -28,11 +30,18 @@ bool CMainMap::Init()
 
 	GetCamera()->SetWorldResolution(1785.f, 1197.f);
 
-	CPlayer* Player = CreateObject<CPlayer>("Player", Vector2(100.f, 650.f));
+	CPlayer* Player = CreateObject<CPlayer>("Player");
 
-	CScrollMap* Map = CreateMap<CScrollMap>("ScrollMap");
+	CGameObjectManager::GetInst()->PassPlayer(Player);
+
+	SetPlayer(Player);
+
+	GetCamera()->SetTarget(Player);
+	GetCamera()->SetTargetPivot(0.5f, 0.5f);
+
+	CScrollMap* Map = CreateMap<CScrollMap>("MainMap");
 	Map->SetSize(1785.f, 1197.f);
-	Map->SetTexture("ScrollBack", TEXT("MainScene.bmp"));
+	Map->SetTexture("MainMap", TEXT("MainScene.bmp"));
 	Map->SetLoop(false);
 	Map->SetScrollRatio(1.0f, 1.0f);
 	Map->SetZOrder(0);
@@ -41,10 +50,8 @@ bool CMainMap::Init()
 
 	CTileMap* TileMap = CreateMap<CTileMap>("MainMap", Vector2(0.f, 0.f), Vector2(1785.f, 1200.f));
 
-	TileMap->LoadFile("TutorialMap");
+	TileMap->LoadFile("MainMap");
 	TileMap->SetZOrder(2);
-
-	CUITutorial* TutorialWindow = CreateUIWindow<CUITutorial>("TutorialWindow");
 
 	CUICharacterStateHUD* StateWindow = CreateUIWindow<CUICharacterStateHUD>("CharacterStateHUD");
 

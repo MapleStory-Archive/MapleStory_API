@@ -68,7 +68,6 @@ enum class ETileEditMode
 	End
 };
 
-
 enum class EMonsterAI
 {
 	Idle,

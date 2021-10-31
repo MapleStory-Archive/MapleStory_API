@@ -1,5 +1,5 @@
 #include "Potal.h"
-#include "GameObject.h"
+#include "Player.h"
 #include "../Scene/Scene.h"
 #include "../Scene/SceneManager.h"
 #include "../Scene/MainMap.h"
@@ -38,8 +38,8 @@ bool CPotal::Init()
 	AddAnimation("Potal", true);
 
 	CColliderBox* Body = AddCollider<CColliderBox>("Body");
-	Body->SetExtent(300.f, 300.f);
-	//Potal->SetOffset(m_Size.x / 2.f, m_Size.y + 30.f);
+	Body->SetExtent(30.f, 30.f);
+	Body->SetOffset(m_Size.x / 2.f, m_Size.y + 30.f);
 
 	return true;
 }
@@ -73,6 +73,6 @@ void CPotal::ColliderBegin(CCollider* Src, CCollider* Dest, float DeltaTime)
 {
 	if (Dest->GetProfile()->Name == "Player")
 	{
-		CSceneManager::GetInst()->CreateScene<CMainMap>();
+		CSceneManager::GetInst()->CreateScene<CMainMap>("MainMap");
 	}	
 }

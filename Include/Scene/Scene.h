@@ -28,6 +28,7 @@ private:
 	std::list<class CMapBase*> m_MapList;
 	CSharedPtr<CGameObject> m_Player;
 	std::list<CSharedPtr<CGameObject>> m_ObjList;
+	std::list<CSharedPtr<CGameObject>> m_PrototypeList;
 	CGameObject** m_RenderArray;
 	int m_RenderCount;
 	int m_RenderCapacity;
@@ -109,6 +110,42 @@ public:
 	}
 
 	template <typename T>
+	T* CopyObject(const std::string& Name, const Vector2& Pos = Vector2(0.f, 0.f), const Vector2 Size = Vector2(100.f, 100.f))
+	{
+		CGameObject* GameObject = FindObject(Name);
+
+		T* CloneObj = (T*)GameObject->Clone();
+
+		auto iter = m_ObjList.begin();
+		auto iterEnd = m_ObjList.end();
+
+		for (; iter != iterEnd; iter++)
+		{
+			if (*iter == (T*)GameObject)
+			{
+				m_ObjList.erase(iter);
+
+				break;
+			}
+		}
+
+		CloneObj->SetScene(this);
+		CloneObj->SetPos(Pos);
+		CloneObj->SetSize(Size);
+		CloneObj->SetName(Name);
+
+		if (!CloneObj->Init())
+		{
+			SAFE_DELETE(CloneObj);
+			return nullptr;
+		}
+
+		m_ObjList.push_back(CloneObj);
+
+		return CloneObj;
+	}
+
+	template <typename T>
 	T* CreateDamageFont(const std::string& Name, const Vector2& Pos = Vector2(0.f, 0.f), const Vector2 Size = Vector2(100.f, 100.f))
 	{		
 		T* Obj = new T;
@@ -124,7 +161,7 @@ public:
 			return nullptr;
 		}
 
-		m_ObjList.push_back(Obj);
+		m_PrototypeList.push_back(Obj);
 
 		return Obj;
 	}
@@ -165,7 +202,7 @@ public:
 		Obj->SetSize(Size);
 		Obj->SetName(Name);
 
-		m_ObjList.push_back(Obj);
+		m_PrototypeList.push_back(Obj);
 
 		return Obj;
 	}

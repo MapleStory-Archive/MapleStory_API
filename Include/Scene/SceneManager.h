@@ -2,6 +2,7 @@
 
 #include "../GameInfo.h"
 #include "Scene.h"
+#include "../Object/GameObjectManager.h"
 
 class CSceneManager
 {
@@ -13,10 +14,24 @@ private:
 	CScene* m_Scene;
 	CScene* m_NextScene;
 
+	std::string m_Name;
+	std::string m_NextName;
+
+public:
+	void SetName(const std::string Name)
+	{
+		m_Name = Name;
+	}
+
 public:
 	CScene* GetScene()
 	{
 		return m_Scene;
+	}
+
+	std::string GetName() const
+	{
+		return m_Name;
 	}
 
 public:
@@ -50,9 +65,16 @@ public:
 
 public:
 	template <typename T>
-	bool CreateScene()
+	bool CreateScene(const std::string Name = " ")
 	{
 		m_NextScene = new T;
+
+		m_NextName = Name;
+
+		if (m_Scene->GetPlayer())
+		{
+			CGameObjectManager::GetInst()->GivePlayer((CPlayer*)m_Scene->GetPlayer());
+		}
 
 		if (!m_NextScene->Init())
 		{

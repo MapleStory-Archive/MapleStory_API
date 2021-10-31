@@ -5,7 +5,7 @@
 #include "../Collision/ColliderBox.h"
 #include "../Collision/ColliderSphere.h"
 
-CShadowBlade::CShadowBlade() : m_IsAttack(false), m_IsAttackAni(false), m_IsHit(false)
+CShadowBlade::CShadowBlade()
 {
 }
 
@@ -141,7 +141,7 @@ void CShadowBlade::Update(float DeltaTime)
 			{
 				m_ActiveTime = 0.f;
 
-				m_IsMove = (bool)(rand() % 2);
+				m_IsMove = rand() % 2;
 
 				if (m_IsMove)
 				{

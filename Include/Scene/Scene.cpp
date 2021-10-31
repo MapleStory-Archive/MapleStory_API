@@ -52,6 +52,8 @@ CScene::~CScene()
 
 	m_ObjList.clear();
 
+	m_PrototypeList.clear();
+
 	m_mapPrototype.clear();
 
 	m_Player = nullptr;
@@ -149,6 +151,25 @@ bool CScene::Update(float DeltaTime)
 	}
 
 	{
+		auto iter = m_PrototypeList.begin();
+		auto iterEnd = m_PrototypeList.end();
+
+		for (; iter != iterEnd;)
+		{
+			if (!(*iter)->IsActive())
+			{
+				iter = m_PrototypeList.erase(iter);
+				iterEnd = m_PrototypeList.end();
+				continue;
+			}
+
+			(*iter)->Update(DeltaTime * (*iter)->m_TimeScale);
+
+			iter++;
+		}
+	}
+
+	{
 		for (int i = 0; i < m_UICount;)
 		{
 			if (!m_UIArray[i]->IsActive())
@@ -196,6 +217,25 @@ bool CScene::PostUpdate(float DeltaTime)
 			{
 				iter = m_ObjList.erase(iter);
 				iterEnd = m_ObjList.end();
+				continue;
+			}
+
+			(*iter)->PostUpdate(DeltaTime * (*iter)->m_TimeScale);
+
+			iter++;
+		}
+	}
+
+	{
+		auto iter = m_PrototypeList.begin();
+		auto iterEnd = m_PrototypeList.end();
+
+		for (; iter != iterEnd;)
+		{
+			if (!(*iter)->IsActive())
+			{
+				iter = m_PrototypeList.erase(iter);
+				iterEnd = m_PrototypeList.end();
 				continue;
 			}
 
@@ -304,6 +344,25 @@ bool CScene::Collision(float DeltaTime)
 			{
 				iter = m_ObjList.erase(iter);
 				iterEnd = m_ObjList.end();
+				continue;
+			}
+
+			(*iter)->Collision(DeltaTime * (*iter)->m_TimeScale);
+
+			iter++;
+		}
+	}
+
+	{
+		auto iter = m_PrototypeList.begin();
+		auto iterEnd = m_PrototypeList.end();
+
+		for (; iter != iterEnd;)
+		{
+			if (!(*iter)->IsActive())
+			{
+				iter = m_PrototypeList.erase(iter);
+				iterEnd = m_PrototypeList.end();
 				continue;
 			}
 
@@ -457,6 +516,51 @@ bool CScene::Render(HDC hDC)
 	m_RenderCount = 0;
 
 	{
+		std::list<CSharedPtr<CGameObject>>::iterator iter = m_PrototypeList.begin();
+		std::list<CSharedPtr<CGameObject>>::iterator iterEnd = m_PrototypeList.end();
+
+		for (; iter != iterEnd;)
+		{
+			if (!(*iter)->IsActive())
+			{
+				iter = m_PrototypeList.erase(iter);
+				iterEnd = m_PrototypeList.end();
+				continue;
+			}
+
+			(*iter)->PrevRender();
+
+			if (!(*iter)->IsCull())
+			{
+				if (m_RenderCount == m_RenderCapacity)
+				{
+					m_RenderCapacity *= 2;
+
+					CGameObject** Array = new CGameObject * [m_RenderCapacity];
+
+					memcpy(Array, m_RenderArray, sizeof(CGameObject*) * m_RenderCount);
+
+					delete[] m_RenderArray;
+
+					m_RenderArray = Array;
+				}
+
+				m_RenderArray[m_RenderCount] = *iter;
+				m_RenderCount++;
+			}
+
+			iter++;
+		}
+	}
+
+	for (int i = 0; i < m_RenderCount; i++)
+	{
+		m_RenderArray[i]->Render(hDC);
+	}
+
+	m_RenderCount = 0;
+
+	{
 		for (int i = 0; i < m_UICount;)
 		{
 			if (!m_UIArray[i]->IsActive())
@@ -502,12 +606,12 @@ int CScene::SortY(const void* Src, const void* Dest)
 
 	if (SrcY < DestY)
 	{
-		return 1;
+		return -1;
 	}
 
 	else if (SrcY > DestY)
 	{
-		return -1;
+		return 1;
 	}
 
 	return 0;

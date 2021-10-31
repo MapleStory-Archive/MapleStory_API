@@ -1,5 +1,7 @@
 #pragma once
+
 #include "Character.h"
+
 class CMonster :
     public CCharacter
 {
@@ -18,10 +20,14 @@ protected:
 	float m_AttackDistance;
 	bool m_AttackEnable;
 
-	bool m_IsMove;
+	int m_IsMove;
 	float m_RandActive;
 
 	bool m_IsTarget;
+
+	bool m_IsAttack;
+	bool m_IsAttackAni;
+	bool m_IsHit;
 
 public:
 	virtual void Start();
@@ -39,5 +45,6 @@ protected:
 	virtual void AITrace(float DeltaTime);
 	virtual void AIAttack(float DeltaTime);
 	virtual void AIDeath(float DeltaTime);
+
 };
 

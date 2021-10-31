@@ -74,14 +74,6 @@ bool CPlayer::Init()
 	Body->SetOffset(0.f, -22.5f);
 	Body->SetCollisionProfile("Player");
 
-	m_StatusWidget = CreateWidgetComponent("StatusWidget");
-
-	CProgressBar* Bar = m_StatusWidget->CreateWidget<CProgressBar>("HPBar");
-
-	Bar->SetTexture("WorldHPBar", TEXT("CharacterHPBar.bmp"));
-	
-	m_StatusWidget->SetPos(-25.f, -95.f);
-
 	m_CharacterInfo.HP = 1000;
 	m_CharacterInfo.HPMax = 1000;
 
@@ -90,7 +82,7 @@ bool CPlayer::Init()
 
 	//SetGravityAccel(30.f);
 	SetPhysicsSimulate(true);
-	SetJumpVelocity(70.f);
+	SetJumpVelocity(40.f);
 	SetSideWallCheck(true);
 
 	return true;
@@ -99,6 +91,13 @@ bool CPlayer::Init()
 void CPlayer::Update(float DeltaTime)
 {
 	CCharacter::Update(DeltaTime);
+
+	CUICharacterStateHUD* State = m_Scene->FindUIWindow<CUICharacterStateHUD>("CharacterStateHUD");
+
+	if (State)
+	{
+		State->SetHPPercent(m_CharacterInfo.HP / (float)m_CharacterInfo.HPMax);
+	}
 
 	Vector2 Range = GetRange();
 
@@ -166,10 +165,6 @@ float CPlayer::SetDamage(float Damage)
 	{
 		State->SetHPPercent(m_CharacterInfo.HP / (float)m_CharacterInfo.HPMax);
 	}
-
-	CProgressBar* HPBar = (CProgressBar*)m_StatusWidget->GetWidget();
-
-	HPBar->SetPercent(m_CharacterInfo.HP / (float)m_CharacterInfo.HPMax);
 
 	return Damage;
 }
@@ -281,7 +276,7 @@ void CPlayer::JumpKey(float DeltaTime)
 
 void CPlayer::Potal(float DeltaTime)
 {
-	CSceneManager::GetInst()->CreateScene<CMainMap>();
+	
 }
 
 void CPlayer::AttackEnd()

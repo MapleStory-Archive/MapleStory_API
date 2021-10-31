@@ -4,7 +4,7 @@
 
 CSceneManager* CSceneManager::m_Inst = nullptr;
 
-CSceneManager::CSceneManager() : m_Scene(nullptr), m_NextScene(nullptr)
+CSceneManager::CSceneManager() : m_Scene(nullptr), m_NextScene(nullptr), m_Name(" "), m_NextName(" ")
 {
 }
 
@@ -63,8 +63,12 @@ bool CSceneManager::ChangeScene()
 		// 생성되어 있는 다음 장면을 기존 장면으로 지정한다.
 		m_Scene = m_NextScene;
 
+		m_Name = m_NextName;
+
 		// 변수를 초기화한다.
 		m_NextScene = nullptr;
+
+		m_NextName = "";
 
 		return true;
 	}

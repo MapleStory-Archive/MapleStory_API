@@ -4,6 +4,7 @@
 #include "Scene/SceneManager.h"
 #include "Scene/EditorScene.h"
 #include "Scene/StartScene.h"
+#include "Scene/BossWillPase2.h"
 #include "PathManager.h"
 #include "Resource/ResourceManager.h"
 #include "Collision/CollisionManager.h"
@@ -17,6 +18,8 @@ CGameManager::CGameManager() : m_Timer(nullptr), m_TimeScale(1.f), m_EditorMode(
 
 CGameManager::~CGameManager()
 {
+    CGameObjectManager::GetInst()->DestroyInst();
+
     CSceneManager::DestroyInst();
 
     CInput::DestroyInst();
@@ -282,20 +285,6 @@ BOOL CGameManager::Create()
 
 LRESULT CGameManager::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    switch (message)
-    {
-    case WM_SYSKEYDOWN:
-    case WM_KEYDOWN:
-        switch (wParam)
-        {
-        case VK_MENU:
-            wParam = VK_MENU;
-            break;
-        }
-
-        break;
-    }
-
     switch (message)
     {
     case WM_PAINT:
